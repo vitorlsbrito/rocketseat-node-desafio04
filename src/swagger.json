@@ -1,0 +1,378 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Atlas",
+        "description": "Esta é uma documentação sobre a Atlas API.",
+        "version": "1.0.0"
+    },
+    "tags": [
+        {
+            "name": "users",
+            "description": "Gerenciamento de usuários."
+        }
+    ],
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Cria um novo usuário",
+                "requestBody": {
+                    "required": true,
+                    "description": "Cria um novo usuário",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "Rocketseat",
+                                    "description": "oi@rocketseat.com.br"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Operação realizada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "admin": {
+                                            "type": "boolean",
+                                            "enum": [
+                                                ""
+                                            ]
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "YYYY-MM-DDTHH:mm:ss.SSSZ"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "YYYY-MM-DDTHH:mm:ss.SSSZ"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "id": "38e7db50-9241-4cbb-9435-6506250f9c90",
+                                    "admin": false,
+                                    "name": "Rcoketseat",
+                                    "email": "oi@rocketseat.com.br",
+                                    "created_at": "2021-12-16T15:30:26.841Z",
+                                    "updated_at": "2021-12-16T23:30:26.841Z"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Email já está sendo utilizado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "error": "This email is already in use."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Retorna todos os usuários.",
+                "description": "Somente usuário ```admin``` pode acessar.",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "header",
+                        "required": "true",
+                        "schema": {
+                            "user_id": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação realizada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "admin": {
+                                                "type": "boolean"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "YYYY-MM-DDTHH:mm:ss.SSSZ"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "YYYY-MM-DDTHH:mm:ss.SSSZ"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": [
+                                    {
+                                        "id": "0cc63cbb-de66-47bd-bd27-e2f09af8bab1",
+                                        "admin": false,
+                                        "name": "Harry",
+                                        "email": "harry@hogwarts.edu.uk",
+                                        "created_at": "2021-11-13T21:12:47.690Z",
+                                        "updated_at": "2021-11-13T21:13:06.448Z"
+                                    },
+                                    {
+                                        "id": "e1ecc4f2-3e73-47bf-9779-8dd20426a304",
+                                        "admin": true,
+                                        "name": "Hermione",
+                                        "email": "hermione@hogwarts.edu.uk",
+                                        "created_at": "2021-11-13T21:47:19.989Z",
+                                        "updated_at": "2021-11-13T21:47:19.990Z"
+                                    },
+                                    {
+                                        "id": "a4858483-1db3-492e-a926-ee7ecb169cec",
+                                        "admin": false,
+                                        "name": "Ron",
+                                        "email": "ron@hogwarts.edu.uk",
+                                        "created_at": "2021-11-13T21:58:15.660Z",
+                                        "updated_at": "2021-11-13T21:58:15.660Z"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Usuário sem permissão ou Usuário não encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "error": "You need to be an administrator to list all users."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Retorna um usuário específico.",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user ID",
+                        "required": true,
+                        "schema": {
+                            "user_id": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação realizada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "YYYY-MM-DDTHH:mm:ss.SSSZ"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "YYYY-MM-DDTHH:mm:ss.SSSZ"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "id": "ffb89e4b-5c25-4fd8-b986-ef29d283c743",
+                                    "admin": false,
+                                    "name": "Harry",
+                                    "email": "harry@hogwarts.edu.uk",
+                                    "created_at": "2021-11-14T00:02:57.834Z",
+                                    "updated_at": "2021-11-14T00:02:57.834Z"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "error": "User not found!"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin": {
+            "patch": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Torna admin um usuário.",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "user_id": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação realizada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "YYYY-MM-DDTHH:mm:ss.SSSZ"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "YYYY-MM-DDTHH:mm:ss.SSSZ"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "id": "ffb89e4b-5c25-4fd8-b986-ef29d283c743",
+                                    "admin": true,
+                                    "name": "Albus",
+                                    "email": "albus@hogwarts.edu.uk",
+                                    "created_at": "2021-11-14T00:02:57.834Z",
+                                    "updated_at": "2021-11-14T00:10:19.458Z"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "error": "User not found!"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
